@@ -204,6 +204,7 @@ public class FormCriarUser extends javax.swing.JFrame {
             mod.setIdUser(Integer.parseInt(jTextFieldIDuser.getText()));
             //chama metodo para excluir
             controlo.eliminar(mod);
+            preencherTabela("select * from user order by id");
         } 
  
     }//GEN-LAST:event_jButtonEliminarActionPerformed
@@ -381,7 +382,7 @@ public class FormCriarUser extends javax.swing.JFrame {
             jTextFieldNomeUser.setText(liga.rs.getString("username"));
             jPasswordFieldPass.setText(liga.rs.getString("password"));
             jPasswordFieldConfPass.setText(liga.rs.getString("password"));
-            jComboBoxTipoUser.setSelectedItem(liga.rs.getString("tipo"));
+            //jComboBoxTipoUser.setSelectedItem(liga.rs.getString("tipo"));
     
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "erro ao selecionar os dados" +ex);
@@ -407,7 +408,7 @@ public class FormCriarUser extends javax.swing.JFrame {
     public void preencherTabela(String sql){
   
     ArrayList dados = new ArrayList();
-    String[] colunas = new String[]{"id","Nome","Tipo","Senha"};
+    String[] colunas = new String[]{"id","Nome","Senha"};
     liga.ligarBD();
     liga.executaSql(sql);
           
@@ -416,7 +417,7 @@ public class FormCriarUser extends javax.swing.JFrame {
        do{                 //enquanto houver dados
  
               dados.add(new Object[]{ liga.rs.getInt("id"),liga.rs.getString("username"),
-                            liga.rs.getString("Tipo"),liga.rs.getString("password")});     
+                           liga.rs.getString("password")});     
        
        }while (liga.rs.next());    //vai percorrendo as posicoes
     }catch(SQLException ex){
@@ -434,8 +435,8 @@ public class FormCriarUser extends javax.swing.JFrame {
     jTableUser.getColumnModel().getColumn(1).setResizable(false);
     jTableUser.getColumnModel().getColumn(2).setPreferredWidth(110);
     jTableUser.getColumnModel().getColumn(2).setResizable(false);
-    jTableUser.getColumnModel().getColumn(3).setPreferredWidth(123);
-    jTableUser.getColumnModel().getColumn(3).setResizable(false);
+//    jTableUser.getColumnModel().getColumn(3).setPreferredWidth(123);
+//    jTableUser.getColumnModel().getColumn(3).setResizable(false);
     jTableUser.getTableHeader().setReorderingAllowed(false);
     jTableUser.setAutoResizeMode(jTableUser.AUTO_RESIZE_OFF);
     jTableUser.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//seleciona um dado de cada vez

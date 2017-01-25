@@ -51,12 +51,11 @@ public class ControloCriarUser {
         
         try {
             PreparedStatement pst = liga.connect.prepareStatement(" update user "
-                    + "set username=?, password=?, tipo=? where id=?");
+                    + "set username=?, password=?, where id=?");
             
             pst.setString(1, mod.getNomeUser());
             pst.setString(2, mod.getPassword());
-            pst.setString(3, mod.getTipo());
-            pst.setInt(4, mod.getIdUser());
+            pst.setInt(3, mod.getIdUser());
             pst.execute();
             JOptionPane.showMessageDialog(null," dados alterados");       
         } catch (SQLException ex) {
@@ -77,7 +76,6 @@ public class ControloCriarUser {
             mod.setIdUser(liga.rs.getInt("id"));
             mod.setNomeUser(liga.rs.getString("username"));
             mod.setPassword(liga.rs.getString("password"));
-            mod.setTipo(liga.rs.getString("tipo"));
             
             } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null," o utilizador não está registado/nErro:" +ex);
