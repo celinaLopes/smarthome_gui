@@ -15,34 +15,32 @@ public class ControloCriarDivisao {
     LigacaoBD liga = new LigacaoBD();
     ModeloCriarDivisao mod = new ModeloCriarDivisao();
     
-   //metodo para inserir dispositivo na bd
+   //metodo para inserir divisao na bd
     public void gravar(ModeloCriarDivisao mod){
         liga.ligarBD();
         
         try {
          
-            PreparedStatement pst = liga.connect.prepareStatement("insert into divisao (nome_divisao,dispositvo) values(?,?)");
-            pst.setString(1,mod.getNomeDivisao());
-            pst.setString(2, mod.getNomeDivisao());
+            PreparedStatement pst = liga.connect.prepareStatement("insert into division (name) values(?)");
+            pst.setString(1, mod.getNomeDivisao());
             pst.execute();
-            JOptionPane.showMessageDialog(null,"divisao inserido com sucesso");
+            JOptionPane.showMessageDialog(null,"divisao inserida com sucesso");
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null,"erro ao inserir divisao/nErro:" +ex);
         }
         liga.desligarBD();
     }
     
-    //metodo para alterar os dados do dispositivo
+    //metodo para alterar os dados da divisao
     public void alterar(ModeloCriarDivisao mod){
         liga.ligarBD();
         
         try {
-            PreparedStatement pst = liga.connect.prepareStatement("update divisao set nome_divisao=?, dispositivo=? where id_divisao=?");
+            PreparedStatement pst = liga.connect.prepareStatement("update division set name=? where id=?");
             pst.setString(1,mod.getNomeDivisao());
-            pst.setString(2, mod.getNomeDispositivo());
-            pst.setInt(3,mod.getIdDivisao());
+            pst.setInt(2,mod.getIdDivisao());
             pst.execute();
-            JOptionPane.showMessageDialog(null,"divisao alterado com sucesso");
+            JOptionPane.showMessageDialog(null,"divisao alterada com sucesso");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"erro ao alterar divisao/nErro:" +ex);
         }
@@ -51,40 +49,39 @@ public class ControloCriarDivisao {
         
     }
     
-    //metodo para eliminar dispositivo
+    //metodo para eliminar divisao
     public void eliminar(ModeloCriarDivisao mod){
             
         liga.ligarBD();
         
         try {
-            PreparedStatement pst = liga.connect.prepareStatement(" delete  from divisao where id_divisao=?");
+            PreparedStatement pst = liga.connect.prepareStatement(" delete from division where id=?");
             pst.setInt(1, mod.getIdDivisao());
             pst.execute();
-            JOptionPane.showMessageDialog(null,"divisao eliminado com sucesso");
+            JOptionPane.showMessageDialog(null,"divisao eliminada com sucesso");
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null,"erro ao eliminar divisao/nErro:" +ex);
         }
         liga.desligarBD();
     }
     
-    //metodo para procurar o dispositivo na bd pelo nome
-     public ModeloCriarDivisao pesquisaDispositivo(ModeloCriarDivisao mod){
+   // metodo para procurar a divisao na bd pelo nome
+     public ModeloCriarDivisao pesquisaDivisao(ModeloCriarDivisao mod){
         liga.ligarBD();
-            liga.executaSql("select * from divisao where nome_divisao like '%" + mod.getPesquisar()+"%'");
-        try {
+        liga.executaSql("select * from division where name like '%" + mod.getPesquisar()+"%'");
+        
+            try {
+           
             liga.rs.first();
-            mod.setIdDivisao(liga.rs.getInt("id_divisao"));
-            mod.setNomeDivisao(liga.rs.getString("nome_divisao"));
-            mod.setNomeDispositivo(liga.rs.getString("dispositivo"));
-         
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"a divisao não está registado/nErro:" +ex);
+            mod.setIdDivisao(liga.rs.getInt("id"));
+            mod.setNomeDivisao(liga.rs.getString("name"));
+            
+            } catch (SQLException ex) {
+           // JOptionPane.showMessageDialog(null,"a divisao não está registada/nErro:" +ex);
         }
         
         liga.desligarBD();
         return mod;
-        
-        
-    }
+  }
     
 }

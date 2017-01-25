@@ -9,16 +9,8 @@ public class ModeloCriarDispositivo {
     
     private Integer idDispositivo;
     private String nomeDispositivo;
-    private Integer idDivisao;
-    private Integer idTipoDispositivo;
-
-    public Integer getIdTipoDispositivo() {
-        return idTipoDispositivo;
-    }
-
-    public void setIdTipoDispositivo(Integer idTipoDispositivo) {
-        this.idTipoDispositivo = idTipoDispositivo;
-    }
+    private String nomeDivisao;
+    private String nomeTipoDispositivo;
     private String pesquisar;
 
     public Integer getIdDispositivo() {
@@ -37,12 +29,20 @@ public class ModeloCriarDispositivo {
         this.nomeDispositivo = nomeDispositivo;
     }
 
-    public Integer getIdDivisao() {
-        return idDivisao;
+    public String getNomeDivisao() {
+        return nomeDivisao;
     }
 
-    public void setIdDivisao(Integer nomeDivisao) {
-        this.idDivisao = nomeDivisao;
+    public void setNomeDivisao(String nomeDivisao) {
+        this.nomeDivisao = nomeDivisao;
+    }
+
+    public String getNomeTipoDispositivo() {
+        return nomeTipoDispositivo;
+    }
+
+    public void setNomeTipoDispositivo(String nomeTipoDispositivo) {
+        this.nomeTipoDispositivo = nomeTipoDispositivo;
     }
 
     public String getPesquisar() {

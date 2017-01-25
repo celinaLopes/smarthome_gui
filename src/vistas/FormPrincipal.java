@@ -15,33 +15,34 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     LigacaoBD liga = new LigacaoBD();       //variavel global
     
+    //para nao abrir varias janelas aomesmo tempo
+   // FormCriarUser criaUser = new FormCriarUser();
+    
         public FormPrincipal() {
+       //      public FormPrincipal(String user) {
         initComponents();
+      //  jLabelUser.setText(user);
         liga.ligarBD();
         }
 
-//    public FormPrincipal(String user) {
-//        initComponents();
-//        liga.ligarBD();
-//        jLabelUser.setText(user);
-//       
-//    }
-//
 //    private FormPrincipal() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabelUser = new javax.swing.JLabel();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jButtonUsers = new javax.swing.JButton();
-        jButtonDivisoes = new javax.swing.JButton();
+        jButtonRegras = new javax.swing.JButton();
+        jButtonOutros = new javax.swing.JButton();
         jButtonDispositivos = new javax.swing.JButton();
-        jLabelUser = new javax.swing.JLabel();
+        jButtonDivisoes = new javax.swing.JButton();
+        jButtonCenarios = new javax.swing.JButton();
         jLabelBACK = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -49,7 +50,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         jMenuItemUser = new javax.swing.JMenuItem();
         jMenuItemDivisao = new javax.swing.JMenuItem();
         jMenuItemDispositivo = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
         jLabel1.setText("jLabel1");
@@ -57,6 +57,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Principal");
         getContentPane().setLayout(null);
+
+        jLabel2.setText("utilizador");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(500, 80, 60, 20);
+
+        jLabelUser.setText("jLabel3");
+        getContentPane().add(jLabelUser);
+        jLabelUser.setBounds(560, 80, 90, 20);
 
         jInternalFrame1.setTitle("Gestão Sistema");
         jInternalFrame1.setVisible(true);
@@ -69,33 +77,66 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         jInternalFrame1.getContentPane().add(jButtonUsers);
-        jButtonUsers.setBounds(10, 11, 87, 76);
+        jButtonUsers.setBounds(260, 10, 87, 76);
 
-        jButtonDivisoes.setText("Divisoes");
-        jInternalFrame1.getContentPane().add(jButtonDivisoes);
-        jButtonDivisoes.setBounds(115, 11, 96, 76);
+        jButtonRegras.setText("Regras");
+        jButtonRegras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRegrasActionPerformed(evt);
+            }
+        });
+        jInternalFrame1.getContentPane().add(jButtonRegras);
+        jButtonRegras.setBounds(130, 120, 90, 76);
+
+        jButtonOutros.setText("Outros");
+        jButtonOutros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOutrosActionPerformed(evt);
+            }
+        });
+        jInternalFrame1.getContentPane().add(jButtonOutros);
+        jButtonOutros.setBounds(260, 120, 90, 76);
 
         jButtonDispositivos.setText("Dispositivos");
+        jButtonDispositivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDispositivosActionPerformed(evt);
+            }
+        });
         jInternalFrame1.getContentPane().add(jButtonDispositivos);
-        jButtonDispositivos.setBounds(229, 11, 105, 76);
+        jButtonDispositivos.setBounds(130, 10, 90, 76);
 
-        jLabelUser.setText("jLabel3");
-        jInternalFrame1.getContentPane().add(jLabelUser);
-        jLabelUser.setBounds(0, 150, 140, 14);
+        jButtonDivisoes.setText("Divisoes");
+        jButtonDivisoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDivisoesActionPerformed(evt);
+            }
+        });
+        jInternalFrame1.getContentPane().add(jButtonDivisoes);
+        jButtonDivisoes.setBounds(10, 10, 90, 76);
+
+        jButtonCenarios.setText("Cenários");
+        jButtonCenarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCenariosActionPerformed(evt);
+            }
+        });
+        jInternalFrame1.getContentPane().add(jButtonCenarios);
+        jButtonCenarios.setBounds(10, 120, 90, 76);
 
         jLabelBACK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/internalframe.png"))); // NOI18N
         jLabelBACK.setText("jLabel2");
         jInternalFrame1.getContentPane().add(jLabelBACK);
-        jLabelBACK.setBounds(0, 0, 534, 170);
+        jLabelBACK.setBounds(-10, 0, 650, 240);
 
         getContentPane().add(jInternalFrame1);
-        jInternalFrame1.setBounds(0, 80, 540, 200);
+        jInternalFrame1.setBounds(0, 100, 650, 240);
 
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/background.jpg"))); // NOI18N
         background.setText("background");
         background.setPreferredSize(new java.awt.Dimension(500, 600));
         getContentPane().add(background);
-        background.setBounds(0, 0, 540, 279);
+        background.setBounds(0, 0, 650, 340);
 
         jMenuUser.setText("Registar");
         jMenuUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -113,15 +154,22 @@ public class FormPrincipal extends javax.swing.JFrame {
         jMenuUser.add(jMenuItemUser);
 
         jMenuItemDivisao.setText("Divisao");
+        jMenuItemDivisao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemDivisaoMouseClicked(evt);
+            }
+        });
         jMenuUser.add(jMenuItemDivisao);
 
         jMenuItemDispositivo.setText("Dispositivo");
+        jMenuItemDispositivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemDispositivoMouseClicked(evt);
+            }
+        });
         jMenuUser.add(jMenuItemDispositivo);
 
         jMenuBar1.add(jMenuUser);
-
-        jMenu2.setText("Relatorios");
-        jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Sair");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -133,7 +181,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(554, 338));
+        setSize(new java.awt.Dimension(664, 403));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,31 +194,90 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuUserMouseClicked
 
     private void jMenuItemUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemUserMouseClicked
-        
-//         try {
-//          liga.executaSql("select * from utilizador where username = '"+jLabelUser.getText()+"'");
-//          liga.rs.first();
-//          
-//          if(liga.rs.getString("tipo").equals("proprietario")){
-//              
-//          
-//          FormCriarUser criaUser = new FormCriarUser();
-//          criaUser.setVisible(true);
-//          
-//          }else{
-//              JOptionPane.showMessageDialog(rootPane,"sem permissão de acesso");
-//          }
+
+//        
+//        try {
+//            liga.executaSql("select * from user where username='"+jLabelUser.getText()+"'");
+//            liga.rs.first();
+//            
+//            if(liga.rs.getString("tipo").equals("admin")){  //se for dotipo admin abre o form
+//                
+//            FormCriarUser criaUser = new FormCriarUser();
+//            criaUser.setVisible(true);
+//            
+//            }else{
+//                JOptionPane.showMessageDialog(rootPane,"sem permissão de acesso");
+//            }
+//
 //        } catch (SQLException ex) {
 //            JOptionPane.showMessageDialog(rootPane,"sem permissão de acesso");
+//            
 //        }
-
     }//GEN-LAST:event_jMenuItemUserMouseClicked
 
     private void jButtonUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUsersActionPerformed
         
-        FormCriarUser criaUser = new FormCriarUser();
-        criaUser.setVisible(true);
+//        try {
+//            liga.executaSql("select * from user where username='"+jLabelUser.getText()+"'");
+//            liga.rs.first();
+//            
+//            if(liga.rs.getString("tipo").equals("admin")){  //se for dotipo admin abre o form
+//                
+//            FormCriarUser criaUser = new FormCriarUser();
+//            criaUser.setVisible(true);
+//            
+//            }else{
+//                JOptionPane.showMessageDialog(rootPane,"sem permissão de acesso");
+//            }
+//
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(rootPane,"sem permissão de acesso");
+//            
+//        }
+//      
+  FormCriarUser criaUser = new FormCriarUser();
+  criaUser.setVisible(true);
     }//GEN-LAST:event_jButtonUsersActionPerformed
+
+    private void jButtonRegrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegrasActionPerformed
+       
+        FormCriarRegras criaRegras = new FormCriarRegras();
+        criaRegras.setVisible(true);
+    }//GEN-LAST:event_jButtonRegrasActionPerformed
+
+    private void jButtonOutrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOutrosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonOutrosActionPerformed
+
+    private void jButtonDispositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDispositivosActionPerformed
+        
+        FormCriarDispositivo criaDispositivo = new FormCriarDispositivo();
+        criaDispositivo.setVisible(true);
+    }//GEN-LAST:event_jButtonDispositivosActionPerformed
+
+    private void jButtonDivisoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDivisoesActionPerformed
+       
+        FormCriarDivisao criaDivisao = new FormCriarDivisao();
+        criaDivisao.setVisible(true);
+    }//GEN-LAST:event_jButtonDivisoesActionPerformed
+
+    private void jButtonCenariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCenariosActionPerformed
+       
+        FormCriarCenario criaCenario = new FormCriarCenario();
+        criaCenario.setVisible(true);
+    }//GEN-LAST:event_jButtonCenariosActionPerformed
+
+    private void jMenuItemDivisaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemDivisaoMouseClicked
+        
+        FormCriarDivisao criaDivisao = new FormCriarDivisao();
+        criaDivisao.setVisible(true);
+    }//GEN-LAST:event_jMenuItemDivisaoMouseClicked
+
+    private void jMenuItemDispositivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemDispositivoMouseClicked
+        
+        FormCriarDispositivo criaDispositivo = new FormCriarDispositivo();
+        criaDispositivo.setVisible(true);
+    }//GEN-LAST:event_jMenuItemDispositivoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -209,14 +316,17 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
+    private javax.swing.JButton jButtonCenarios;
     private javax.swing.JButton jButtonDispositivos;
     private javax.swing.JButton jButtonDivisoes;
+    private javax.swing.JButton jButtonOutros;
+    private javax.swing.JButton jButtonRegras;
     private javax.swing.JButton jButtonUsers;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelBACK;
     private javax.swing.JLabel jLabelUser;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemDispositivo;

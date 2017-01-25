@@ -3,7 +3,7 @@ package vistas;
 
 import controlo.ControloCriarDispositivo;
 import controlo.LigacaoBD;
-import controlo.ComboItem;
+import modelo.ComboItem;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -24,20 +24,25 @@ import modelo.ModeloTabela;
  */
 public class FormCriarDispositivo extends javax.swing.JFrame {
     
+    LigacaoBD liga = new LigacaoBD();
     ModeloCriarDispositivo mod = new ModeloCriarDispositivo();
     ControloCriarDispositivo controlo = new ControloCriarDispositivo();
-    LigacaoBD liga = new LigacaoBD();
-    Vector<ComboItem> divisoes = new Vector<ComboItem>();
-    Vector<ComboItem> tiposDispositivos = new Vector<ComboItem>();
+
     int flag = 0;
 
     public FormCriarDispositivo() {
         initComponents();
-        preencherTabela("select * from device order by name");
+
+        preencherTabela("select * from device i inner join division e on i.id = e.division_id "
+            + "inner join device_type t on t.id = e.device_type_id");
+
+//        preencherTabela("select id, name, name, name from device inner join division on"
+//                + "id = id inner join device_type on id=id ");
         preencherDivisao();
         preencherTipoDispositivo();
 
-       
+
+      
     }
 
     @SuppressWarnings("unchecked")
@@ -65,10 +70,16 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Criar Dispositivo");
+        setEnabled(false);
+        getContentPane().setLayout(null);
 
         jLabel1.setText("ID");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(30, 61, 37, 23);
 
         jTextFieldIDdispositivo.setEnabled(false);
+        getContentPane().add(jTextFieldIDdispositivo);
+        jTextFieldIDdispositivo.setBounds(71, 52, 40, 30);
 
         jButtonNovo.setText("novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -76,6 +87,8 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
                 jButtonNovoActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonNovo);
+        jButtonNovo.setBounds(660, 140, 80, 23);
 
         jButtonGravar.setText("gravar");
         jButtonGravar.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +96,8 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
                 jButtonGravarActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonGravar);
+        jButtonGravar.setBounds(660, 180, 80, 23);
 
         jButtonAlterar.setText("alterar");
         jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
@@ -90,6 +105,8 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
                 jButtonAlterarActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonAlterar);
+        jButtonAlterar.setBounds(660, 220, 80, 23);
 
         jButtonEliminar.setText("eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -97,8 +114,17 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
                 jButtonEliminarActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonEliminar);
+        jButtonEliminar.setBounds(660, 300, 80, 23);
 
         jButtonSair.setText("sair");
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButtonSair);
+        jButtonSair.setBounds(660, 340, 80, 23);
 
         jButtonPesquisar.setText("pesquisar");
         jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +132,10 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
                 jButtonPesquisarActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonPesquisar);
+        jButtonPesquisar.setBounds(320, 230, 120, 23);
+        getContentPane().add(jTextFieldPesquisar);
+        jTextFieldPesquisar.setBounds(40, 230, 250, 29);
 
         jTableDispositivo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,14 +157,25 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableDispositivo);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(40, 270, 452, 128);
+
         jTextFieldNomeDispositivo.setEnabled(false);
+        getContentPane().add(jTextFieldNomeDispositivo);
+        jTextFieldNomeDispositivo.setBounds(230, 60, 217, 28);
 
         jComboBoxNomeDivisao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "quarto" }));
         jComboBoxNomeDivisao.setEnabled(false);
+        getContentPane().add(jComboBoxNomeDivisao);
+        jComboBoxNomeDivisao.setBounds(100, 130, 117, 28);
 
         jLabel2.setText("Divisão");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(30, 130, 61, 28);
 
         jLabel3.setText("Nome");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(160, 60, 52, 28);
 
         jButtonCancelar.setText("cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,210 +183,71 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
                 jButtonCancelarActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonCancelar);
+        jButtonCancelar.setBounds(660, 260, 80, 23);
 
         jComboBoxTipoDispositivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "interruptor" }));
+        jComboBoxTipoDispositivo.setEnabled(false);
+        getContentPane().add(jComboBoxTipoDispositivo);
+        jComboBoxTipoDispositivo.setBounds(370, 130, 120, 30);
 
         jLabel4.setText("tipo");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldIDdispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonPesquisar)
-                        .addGap(171, 171, 171))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(97, 97, 97))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(54, 54, 54)
-                                        .addComponent(jComboBoxTipoDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jTextFieldNomeDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxNomeDivisao, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonCancelar)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(34, 34, 34))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldIDdispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPesquisar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonNovo)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGravar)
-                    .addComponent(jComboBoxNomeDivisao, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldNomeDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonAlterar)
-                        .addGap(12, 12, 12)
-                        .addComponent(jButtonCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonEliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSair))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jComboBoxTipoDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(166, 166, 166))
-        );
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(310, 130, 40, 30);
 
         setSize(new java.awt.Dimension(784, 462));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     
-    public void preencherDivisao(){
+  //metodo para preencher a combobox com o nome das divisoes
+        public void preencherDivisao(){
         
         liga.ligarBD();
         liga.executaSql("select * from division order by name");
-        jComboBoxNomeDivisao.removeAllItems();
+     
         
         try {
             liga.rs.first();
-            
+            jComboBoxNomeDivisao.removeAllItems();
             do{
-                //jComboBoxNomeDivisao.addItem(liga.rs.getString("name"));
-                
-                divisoes.add(
-                    new ComboItem(liga.rs.getInt("id"), liga.rs.getString("name"))
-                );
+                jComboBoxNomeDivisao.addItem(liga.rs.getString("name"));
 
             }while(liga.rs.next());
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane,"erro aoa preencher lista dos dispositivos"+ex);
+            JOptionPane.showMessageDialog(rootPane,"erro ao preencher a lista das divisoes"+ex);
         }
-        
-        jComboBoxNomeDivisao.setModel(new DefaultComboBoxModel(divisoes));
+ 
     }
     
-    public void preencherTipoDispositivo(){
+  //metodo para preencher a combobox com o nome do tipo de dispositivo
+            public void preencherTipoDispositivo(){
         
         liga.ligarBD();
         liga.executaSql("select * from device_type order by name");
-        jComboBoxTipoDispositivo.removeAllItems();
+      
         
         try {
             liga.rs.first();
-            
+              jComboBoxTipoDispositivo.removeAllItems();
             do{
-                tiposDispositivos.add(
-                    new ComboItem(liga.rs.getInt("id"), liga.rs.getString("name"))
-                );
+                jComboBoxTipoDispositivo.addItem(liga.rs.getString("name"));
+ 
             }while(liga.rs.next());
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane,"erro aoa preencher lista dos dispositivos"+ex);
+            JOptionPane.showMessageDialog(rootPane,"erro ao preencher lista dos dispositivos"+ex);
         }
         
-        jComboBoxTipoDispositivo.setModel(new DefaultComboBoxModel(tiposDispositivos));
+    
         
     }
     
-    private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        ComboItem divisao = (ComboItem)jComboBoxNomeDivisao.getSelectedItem();
-        ComboItem dispositivo = (ComboItem)jComboBoxTipoDispositivo.getSelectedItem();
-        
-        //para não gravar dados em branco
-        if(jTextFieldNomeDispositivo.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"digite o nome");
-            jTextFieldNomeDispositivo.requestFocus();
-        }else 
-        
-        if(flag == 1){
-            mod.setNomeDispositivo(jTextFieldNomeDispositivo.getText());
-            mod.setIdDivisao(divisao.getId());
-            mod.setIdTipoDispositivo(dispositivo.getId());
-            //mod.setIdDivisao((Integer.get)jComboBoxNomeDivisao.getSelectedItem());
-
-
-            //chama o metodo para gravaros dados
-            controlo.gravar(mod);
-
-            //limpa os campos
-            jTextFieldIDdispositivo.setText("");
-            jTextFieldNomeDispositivo.setText("");
-            jTextFieldPesquisar.setText("");
-            //muda estado dos campos e botoes
-            jComboBoxNomeDivisao.setEnabled(false);
-            jButtonGravar.setEnabled(false);
-            jButtonCancelar.setEnabled(false);
-
-            // atualiza a tabela
-            preencherTabela("select * from device order by name");
-        
-        
-        }else{
-             mod.setIdDispositivo(Integer.parseInt(jTextFieldIDdispositivo.getText()));
-             mod.setNomeDispositivo(jTextFieldNomeDispositivo.getText());
-             mod.setIdDivisao(divisao.getId());
-            
-             //chama o metodo para alterar os dados
-             controlo.alterar(mod);
-         
-             //limpa os campos
-            jTextFieldIDdispositivo.setText("");
-            jTextFieldNomeDispositivo.setText("");
-            jTextFieldPesquisar.setText("");
-            
-            //muda estado dos campos e botoes
-            jComboBoxNomeDivisao.setEnabled(false);
-            jButtonGravar.setEnabled(false);
-            jButtonNovo.setEnabled(true);
-            jButtonCancelar.setEnabled(false);
-            
-            //atualiza a tabela
-            preencherTabela("select * from device order by name");
-        }
-    }//GEN-LAST:event_jButtonGravarActionPerformed
-
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         
         flag = 1;
         jTextFieldNomeDispositivo.setEnabled(true);
         jComboBoxNomeDivisao.setEnabled(true);
+        jComboBoxTipoDispositivo.setEnabled(true);
         jButtonGravar.setEnabled(true);
         jButtonCancelar.setEnabled(true);
         //limpa os campos
@@ -361,117 +263,203 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         
-        mod.setPesquisar(jTextFieldPesquisar.getText());
-        ModeloCriarDispositivo modelo = controlo.pesquisaDispositivo(mod);
+        mod.setPesquisar(jTextFieldPesquisar.getText());   //atribui a string da pesquisa ao objeto
+        ModeloCriarDispositivo modelo = controlo.pesquisaDispositivo(mod); //chama o metodo para pesquisar o dispositivo
+
         
         jTextFieldIDdispositivo.setText(String.valueOf(modelo.getIdDispositivo()));
         jTextFieldNomeDispositivo.setText(modelo.getNomeDispositivo());
-        jComboBoxNomeDivisao.setSelectedItem(modelo.getIdDivisao());
-
-        //limpa os campos
-        jTextFieldIDdispositivo.setText("");
-        jTextFieldNomeDispositivo.setText("");
-        jTextFieldPesquisar.setText("");
+        jComboBoxNomeDivisao.setSelectedItem(modelo.getNomeDivisao());
+        jComboBoxTipoDispositivo.setSelectedItem(modelo.getNomeTipoDispositivo());
+     
+//        //limpa os campos
+//        jTextFieldIDdispositivo.setText("");
+//        jTextFieldNomeDispositivo.setText("");
+//        jTextFieldPesquisar.setText("");
         
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
-    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        
-        jTextFieldNomeDispositivo.setEnabled(!true);
-        jTextFieldPesquisar.setEnabled(true);
-        jComboBoxNomeDivisao.setEnabled(!true);
-        jButtonPesquisar.setEnabled(true);
-        jButtonGravar.setEnabled(!true);
-        jButtonAlterar.setEnabled(!true);
-        jButtonCancelar.setEnabled(false);
-        jButtonNovo.setEnabled(true);
-        jButtonEliminar.setEnabled(false);
-        //limpar os campos
-        jTextFieldIDdispositivo.setText("");
-        jTextFieldNomeDispositivo.setText("");
-        
-    }//GEN-LAST:event_jButtonCancelarActionPerformed
-
-    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
-       
-        flag = 2;
-        jTextFieldNomeDispositivo.setEnabled(true);
-        jComboBoxNomeDivisao.setEnabled(true);
-        jButtonGravar.setEnabled(true);
-        jButtonAlterar.setEnabled(false);
-        jButtonCancelar.setEnabled(true);
-        jButtonNovo.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
-        
-        
-    }//GEN-LAST:event_jButtonAlterarActionPerformed
-
-    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-       
-        int resposta = 0;
-        
-        resposta = JOptionPane.showConfirmDialog(rootPane,"deseja mesmo eliminar o dispositivo?");
-        if(resposta == JOptionPane.YES_OPTION){
-            mod.setIdDispositivo(Integer.parseInt(jTextFieldIDdispositivo.getText()));
-            
-            //chama o metodo excluir
-            controlo.eliminar(mod);
-            
-        //limpa os campos
-        jTextFieldIDdispositivo.setText("");
-        jTextFieldNomeDispositivo.setText("");
-        jTextFieldPesquisar.setText("");
-        
-        //muda estado dos campos e botoes
-        jComboBoxNomeDivisao.setEnabled(false);
-        jButtonGravar.setEnabled(false);
-        jButtonNovo.setEnabled(true);
-        jButtonCancelar.setEnabled(false);
-        jButtonAlterar.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
-        
-        //atualiza a tabela
-        preencherTabela("select * from device order by name");
-        }
-    }//GEN-LAST:event_jButtonEliminarActionPerformed
-
     private void jTableDispositivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDispositivoMouseClicked
+
         
         String nome_dispositivo = ""+jTableDispositivo.getValueAt(jTableDispositivo.getSelectedRow(), 1);
         liga.ligarBD();
+        
         liga.executaSql("select * from device where name ='"+nome_dispositivo+"'");
         try {
             liga.rs.first();
+                       
             jTextFieldIDdispositivo.setText(String.valueOf(liga.rs.getInt("id")));
             jTextFieldNomeDispositivo.setText(liga.rs.getString("name"));
-            jComboBoxNomeDivisao.setSelectedItem(liga.rs.getInt("division_id"));
             
+            LigacaoBD ligaPesqDiv = new LigacaoBD();
+            ligaPesqDiv.ligarBD(); 
+            ligaPesqDiv.executaSql("select * from division where id ="+liga.rs.getInt("division_id"));
+            ligaPesqDiv.rs.first();
+            jComboBoxNomeDivisao.setSelectedItem(ligaPesqDiv.rs.getString("name"));
+            
+            LigacaoBD ligaPesqTipo = new LigacaoBD();
+            ligaPesqTipo.ligarBD();
+            ligaPesqTipo.executaSql("select * from device_type where id ="+liga.rs.getInt("device_type_id"));
+            ligaPesqTipo.rs.first();
+            jComboBoxTipoDispositivo.setSelectedItem(liga.rs.getString("name"));
+        
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "erro ao selecionar os dados" +ex);
         }
         liga.desligarBD();
     }//GEN-LAST:event_jTableDispositivoMouseClicked
 
-        //metodo para criar a tabela
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+        
+        FormPrincipal principal = new FormPrincipal();
+        principal.setVisible(true);
+    }//GEN-LAST:event_jButtonSairActionPerformed
+
+    private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
+
+        //para não gravar dados em branco
+        if(jTextFieldNomeDispositivo.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,"digite o nome");
+            jTextFieldNomeDispositivo.requestFocus();
+        }else
+
+        if(flag == 1){
+            mod.setNomeDispositivo(jTextFieldNomeDispositivo.getText());
+            mod.setNomeDivisao((String)jComboBoxNomeDivisao.getSelectedItem());
+            mod.setNomeTipoDispositivo((String) jComboBoxTipoDispositivo.getSelectedItem());
+
+            //chama o metodo para gravar os dados
+            controlo.gravar(mod);
+
+            //limpa os campos
+            jTextFieldIDdispositivo.setText("");
+            jTextFieldNomeDispositivo.setText("");
+            jTextFieldPesquisar.setText("");
+            //muda estado dos campos e botoes
+            jComboBoxNomeDivisao.setEnabled(false);
+            jButtonGravar.setEnabled(false);
+            jButtonCancelar.setEnabled(false);
+
+            // atualiza a tabela
+            preencherTabela("select * from division i inner join device e on i.id = e.division_id "
+                + "inner join device_type t on t.id = e.device_type_id");
+
+        }else{
+            mod.setIdDispositivo(Integer.parseInt(jTextFieldIDdispositivo.getText()));
+            mod.setNomeDispositivo(jTextFieldNomeDispositivo.getText());
+            mod.setNomeDivisao((String)jComboBoxNomeDivisao.getSelectedItem());
+            mod.setNomeTipoDispositivo((String) jComboBoxTipoDispositivo.getSelectedItem());
+            //chama o metodo para alterar os dados
+            controlo.alterar(mod);
+
+            //limpa os campos
+            jTextFieldIDdispositivo.setText("");
+            jTextFieldNomeDispositivo.setText("");
+            jTextFieldPesquisar.setText("");
+
+            //muda estado dos campos e botoes
+            jComboBoxNomeDivisao.setEnabled(false);
+            jButtonGravar.setEnabled(false);
+            jButtonNovo.setEnabled(true);
+            jButtonCancelar.setEnabled(false);
+
+            //atualiza a tabela
+            preencherTabela("select * from division i inner join device e on i.id = e.division_id "
+                + "inner join device_type t on t.id = e.device_type_id");
+        }
+    }//GEN-LAST:event_jButtonGravarActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+
+        flag = 2;
+        jTextFieldNomeDispositivo.setEnabled(true);
+        jComboBoxNomeDivisao.setEnabled(true);
+        jComboBoxTipoDispositivo.setEnabled(true);
+        jButtonGravar.setEnabled(true);
+        jButtonAlterar.setEnabled(false);
+        jButtonCancelar.setEnabled(true);
+        jButtonNovo.setEnabled(false);
+        jButtonEliminar.setEnabled(false);
+
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+
+        jTextFieldNomeDispositivo.setEnabled(!true);
+        jTextFieldPesquisar.setEnabled(true);
+        jComboBoxNomeDivisao.setEnabled(!true);
+        jComboBoxTipoDispositivo.setEnabled(false);
+        jButtonPesquisar.setEnabled(true);
+        jButtonGravar.setEnabled(!true);
+        jButtonAlterar.setEnabled(!true);
+        jButtonCancelar.setEnabled(false);
+        jButtonNovo.setEnabled(true);
+        jButtonEliminar.setEnabled(false);
+
+        //limpar os campos
+        jTextFieldNomeDispositivo.setText("");
+        jTextFieldIDdispositivo.setText("");
+
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+
+        int resposta = 0;
+
+        resposta = JOptionPane.showConfirmDialog(rootPane,"deseja mesmo eliminar o dispositivo?");
+        if(resposta == JOptionPane.YES_OPTION){
+
+            mod.setIdDispositivo(Integer.parseInt(jTextFieldIDdispositivo.getText()));
+
+            //chama o metodo excluir
+            controlo.eliminar(mod);
+
+            //limpa os campos
+            jTextFieldIDdispositivo.setText("");
+            jTextFieldNomeDispositivo.setText("");
+            jTextFieldPesquisar.setText("");
+
+            //muda estado dos campos e botoes
+            jComboBoxNomeDivisao.setEnabled(false);
+            jButtonGravar.setEnabled(false);
+            jButtonNovo.setEnabled(true);
+            jButtonCancelar.setEnabled(false);
+            jButtonAlterar.setEnabled(false);
+            jButtonEliminar.setEnabled(false);
+
+            //atualiza a tabela
+            preencherTabela("select * from division i inner join device e on i.id = e.division_id "
+                + "inner join device_type t on t.id = e.device_type_id");
+        }
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    //metodo para criar a tabela
     public void preencherTabela(String sql){
    
     ArrayList dados = new ArrayList();
 
     String[] colunas = new String[]{"id", "dispositivo", "divisao", "tipo"};
-    liga.ligarBD();
-    //liga.executaSql(sql);
-    
-    liga.executaSql("select * from division i inner join device e on i.id = e.division_id inner join device_type t on t.id = e.device_type_id");
+   liga.ligarBD();
+     // liga.executaSql(sql);
+//      
+    liga.executaSql("select * from division i inner join device e on i.id = e.division_id "
+            + "inner join device_type t on t.id = e.device_type_id");
+//              preencherTabela("select id,name,namename from device i inner join division e on i.id = e.id "
+//            + "inner join device_type t on t.id = e.id");
+
    
    try{
        liga.rs.first();  //vamos buscar o primeiro resultado da pesquisa
        do{                 //enquanto houver dados
 //            
               dados.add(new Object[]{ liga.rs.getInt("e.id"),liga.rs.getString("e.name")
-              , liga.rs.getString("i.name"), liga.rs.getString("t.name")});     
+              , liga.rs.getString("i.name"), liga.rs.getString("t.name")}); 
+//      dados.add(new Object[]{ liga.rs.getInt("id"),liga.rs.getString("name")
+//              , liga.rs.getString("name"), liga.rs.getString("name")}); 
         }while (liga.rs.next());    //vai percorrendo as posicoes
     }catch(SQLException ex){
-      JOptionPane.showMessageDialog(null,"procure outra dispositivo"+ex);
+      JOptionPane.showMessageDialog(null,"procure outro dispositivo"+ex);
     }
 
 
@@ -480,22 +468,23 @@ public class FormCriarDispositivo extends javax.swing.JFrame {
   
     
     jTableDispositivo.setModel(modTab);
-    jTableDispositivo.getColumnModel().getColumn(0).setPreferredWidth(127); //nome
+    jTableDispositivo.getColumnModel().getColumn(0).setPreferredWidth(80); //nome
     jTableDispositivo.getColumnModel().getColumn(0).setResizable(false); //nome
-    jTableDispositivo.getColumnModel().getColumn(1).setPreferredWidth(153);
+    jTableDispositivo.getColumnModel().getColumn(1).setPreferredWidth(120);
     jTableDispositivo.getColumnModel().getColumn(1).setResizable(false);
-    jTableDispositivo.getColumnModel().getColumn(2).setPreferredWidth(153);
+    jTableDispositivo.getColumnModel().getColumn(2).setPreferredWidth(125);
     jTableDispositivo.getColumnModel().getColumn(2).setResizable(false);
-    jTableDispositivo.getColumnModel().getColumn(3).setPreferredWidth(80);
+    jTableDispositivo.getColumnModel().getColumn(3).setPreferredWidth(120);
     jTableDispositivo.getColumnModel().getColumn(3).setResizable(false);
     jTableDispositivo.getTableHeader().setReorderingAllowed(false);
     jTableDispositivo.setAutoResizeMode(jTableDispositivo.AUTO_RESIZE_OFF);
     jTableDispositivo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//seleciona um dado de cada vez
 
-    liga.desligarBD();
+  liga.desligarBD();
     
             
     }
+
     /**
      * @param args the command line arguments
      */

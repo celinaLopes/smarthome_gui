@@ -27,7 +27,7 @@ public class FormCriarUser extends javax.swing.JFrame {
     
     public FormCriarUser() {
         initComponents();
-        preencherTabela("select * from utilizador order by id");
+        preencherTabela("select * from user order by id");
     }
 
 
@@ -61,6 +61,7 @@ public class FormCriarUser extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jButtonGravar.setText("gravar");
+        jButtonGravar.setEnabled(false);
         jButtonGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGravarActionPerformed(evt);
@@ -70,6 +71,7 @@ public class FormCriarUser extends javax.swing.JFrame {
         jButtonGravar.setBounds(570, 160, 90, 23);
 
         jButtonEliminar.setText("eliminar");
+        jButtonEliminar.setEnabled(false);
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEliminarActionPerformed(evt);
@@ -79,10 +81,16 @@ public class FormCriarUser extends javax.swing.JFrame {
         jButtonEliminar.setBounds(570, 280, 90, 23);
 
         jButtonSair.setText("sair");
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButtonSair);
         jButtonSair.setBounds(570, 320, 90, 23);
 
         jButtonAlterar.setText("alterar");
+        jButtonAlterar.setEnabled(false);
         jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAlterarActionPerformed(evt);
@@ -126,10 +134,15 @@ public class FormCriarUser extends javax.swing.JFrame {
 
             }
         ));
+        jTableUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableUserMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableUser);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(30, 280, 460, 90);
+        jScrollPane1.setBounds(30, 280, 450, 120);
         getContentPane().add(jTextFieldPesquisa);
         jTextFieldPesquisa.setBounds(140, 40, 230, 30);
 
@@ -140,12 +153,12 @@ public class FormCriarUser extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButtonPesquisar);
-        jButtonPesquisar.setBounds(390, 40, 130, 23);
+        jButtonPesquisar.setBounds(390, 33, 130, 30);
 
         jComboBoxTipoUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "comum" }));
         jComboBoxTipoUser.setEnabled(false);
         getContentPane().add(jComboBoxTipoUser);
-        jComboBoxTipoUser.setBounds(390, 130, 120, 20);
+        jComboBoxTipoUser.setBounds(390, 120, 120, 30);
 
         jLabel5.setText("Tipo");
         getContentPane().add(jLabel5);
@@ -161,6 +174,7 @@ public class FormCriarUser extends javax.swing.JFrame {
         jButtonNovo.setBounds(570, 120, 90, 23);
 
         jButtonCancelar.setText("cancelar");
+        jButtonCancelar.setEnabled(false);
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
@@ -182,57 +196,33 @@ public class FormCriarUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        
-        mod.setIdUser(Integer.parseInt(jTextFieldIDuser.getText()));
-        mod.setNomeUser(jTextFieldNomeUser.getText());
-        mod.setTipo((String)jComboBoxTipoUser.getSelectedItem());
-        
-        //chama o metodo para excluir os dados da bd
-        controlo.eliminar(mod);
-        
-         //limpar os campos
-        jTextFieldIDuser.setText("");
-        jTextFieldNomeUser.setText("");
-        jPasswordFieldPass.setText("");
-        jPasswordFieldConfPass.setText("");
-        jTextFieldPesquisa.setText("");
-      
-        //mudar estado dos botoes
-        jButtonGravar.setEnabled(!true);
-        jButtonNovo.setEnabled(!false);
-        jButtonCancelar.setEnabled(!true);
-      
-        //mudar estado dos campos
-        jTextFieldNomeUser.setEnabled(!true);
-        jPasswordFieldPass.setEnabled(!true);
-        jPasswordFieldConfPass.setEnabled(!true);
+
+          int resposta =0;
+       
+        resposta = JOptionPane.showConfirmDialog(rootPane,"deseja mesmo eliminar o utilizador?");
+        if(resposta == JOptionPane.YES_OPTION){
+            mod.setIdUser(Integer.parseInt(jTextFieldIDuser.getText()));
+            //chama metodo para excluir
+            controlo.eliminar(mod);
+        } 
  
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
-      flag = 1;
-//        //limpar os campos
-//        jTextFieldIDuser.setText("");
-//        jTextFieldNomeUser.setText("");
-//        jPasswordFieldConfPass.setText("");
-//        jTextFieldPesquisa.setText("");
-//        jTextFieldPesquisa.setText("");
-//        
+     flag = 1;
+       
         //mudar estado dos campos
         jTextFieldNomeUser.setEnabled(true);
         jPasswordFieldPass.setEnabled(true);
         jPasswordFieldConfPass.setEnabled(true);
         jComboBoxTipoUser.setEnabled(true);
-//      
-//        //mudar estado dos botoes
-//        jButtonGravar.setEnabled(true);
-//        jButtonNovo.setEnabled(true);
-//        jButtonCancelar.setEnabled(true);
-//        jButtonAlterar.setEnabled(false);
-//        jButtonEliminar.setEnabled(true);
+        jTextFieldPesquisa.setEnabled(false);
 
-        
-
+        //mudar estado dos botoes
+        jButtonGravar.setEnabled(true);
+        jButtonPesquisar.setEnabled(false);
+        jButtonCancelar.setEnabled(true);
+        jButtonNovo.setEnabled(false);
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -247,141 +237,188 @@ public class FormCriarUser extends javax.swing.JFrame {
         //mudar estado dos botoes
         jButtonGravar.setEnabled(!true);
         jButtonNovo.setEnabled(!false);
-        jButtonCancelar.setEnabled(true);
+        jButtonCancelar.setEnabled(!true);
         jButtonAlterar.setEnabled(false);
         jButtonEliminar.setEnabled(false);
+        jButtonPesquisar.setEnabled(true);
        
         //mudar estado dos campos
         jTextFieldNomeUser.setEnabled(!true);
         jPasswordFieldPass.setEnabled(!true);
         jPasswordFieldConfPass.setEnabled(!true);
+        jComboBoxTipoUser.setEnabled(false);
+        
 
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-       
+
+        //para não gravar dados em branco
         if(jTextFieldNomeUser.getText().isEmpty()){
-            JOptionPane.showMessageDialog(rootPane,"insira o nome de utilizador");
+            JOptionPane.showMessageDialog(null,"digite o nome de utilizador");
             jTextFieldNomeUser.requestFocus();
+        
         }else if(jPasswordFieldConfPass.getText().isEmpty()){
-            JOptionPane.showMessageDialog(rootPane,"confirme a password");
+            JOptionPane.showMessageDialog(null,"confirme a password");
             jPasswordFieldConfPass.requestFocus();
+        
         }else if(jPasswordFieldPass.getText().isEmpty()){
-            JOptionPane.showMessageDialog(rootPane,"insira a password");
+            JOptionPane.showMessageDialog(null,"digite a password");
             jPasswordFieldPass.requestFocus();
+                   
         }else
+            
         if(flag == 1){
-       
-            if(jPasswordFieldPass.getText().equals(jPasswordFieldConfPass.getText())){
-               
+           
             mod.setNomeUser(jTextFieldNomeUser.getText());
-                mod.setTipo((String)jComboBoxTipoUser.getSelectedItem());
-                mod.setPassword(jPasswordFieldPass.getText());
+            mod.setPassword(jPasswordFieldPass.getText());
+            mod.setTipo((String)jComboBoxTipoUser.getSelectedItem());
 
-                //chama metodo para gravar os dados na bd
-                controlo.gravar(mod);
+            //chama o metodo para gravar  dados
+            controlo.gravar(mod);
 
-                //limpar os campos
-                jTextFieldIDuser.setText("");
-                jTextFieldNomeUser.setText("");
-                jPasswordFieldPass.setText("");
-                jPasswordFieldConfPass.setText("");
-                jTextFieldPesquisa.setText("");
+            //limpa os campos
+            jTextFieldIDuser.setText("");
+            jTextFieldNomeUser.setText("");
+            jPasswordFieldPass.setText("");
+            jPasswordFieldConfPass.setText("");
+           // jTextFieldPesquisar.setText("");
 
-                //mudar estado dos botoes
-                jButtonGravar.setEnabled(!true);
-                jButtonNovo.setEnabled(!false);
-                jButtonCancelar.setEnabled(!true);
-                jButtonAlterar.setEnabled(false);
-                jButtonEliminar.setEnabled(false);
-
-                //mudar estado dos campos
-                jTextFieldNomeUser.setEnabled(!true);
-                jPasswordFieldPass.setEnabled(!true);
-                jPasswordFieldConfPass.setEnabled(!true);
-
+            //muda estado dos campos e botoes
+            
+            jTextFieldNomeUser.setEnabled(false);
+            jPasswordFieldPass.setEnabled(false);
+            jPasswordFieldConfPass.setEnabled(false);
+            jComboBoxTipoUser.setEnabled(false);
+            jButtonGravar.setEnabled(false);
+            jButtonCancelar.setEnabled(false);
+            jButtonNovo.setEnabled(!false);
+           
         }else{
-            JOptionPane.showMessageDialog(rootPane,"a password não é igual");
-        }
-        } else{
-              if(jPasswordFieldPass.getText().equals(jPasswordFieldConfPass.getText())){
-                  
-              
-                //limpar os campos
+             mod.setIdUser(Integer.parseInt(jTextFieldIDuser.getText()));
+             mod.setNomeUser(jTextFieldNomeUser.getText());
+             mod.setPassword(jPasswordFieldPass.getText());
+             mod.setTipo((String)jComboBoxTipoUser.getSelectedItem());
+           
+               //chama o metodo para gravar  dados
+               controlo.alterar(mod);
+
+                //limpa os campos
                 jTextFieldIDuser.setText("");
                 jTextFieldNomeUser.setText("");
                 jPasswordFieldPass.setText("");
                 jPasswordFieldConfPass.setText("");
                 jTextFieldPesquisa.setText("");
 
-                //mudar estado dos botoes
-                jButtonGravar.setEnabled(!true);
-                jButtonNovo.setEnabled(!false);
-                jButtonCancelar.setEnabled(!true);
-                jButtonAlterar.setEnabled(false);
-                jButtonEliminar.setEnabled(false);
-
-                //mudar estado dos campos
-                jTextFieldNomeUser.setEnabled(!true);
-                jPasswordFieldPass.setEnabled(!true);
-                jPasswordFieldConfPass.setEnabled(!true);
-                //ativa o botao salvar;
-             //   flag=1;  
-                
-                }else{
-                     JOptionPane.showMessageDialog(rootPane,"a password não é igual");
-        }
-                
-        }
+                //muda estado dos campos e botoes
+                jTextFieldNomeUser.setEnabled(false);
+                jPasswordFieldPass.setEnabled(false);
+                jPasswordFieldConfPass.setEnabled(false);
+                jComboBoxTipoUser.setEnabled(false);
+                jButtonGravar.setEnabled(false);
+                jButtonCancelar.setEnabled(false);
+                jButtonNovo.setEnabled(true);
+                jButtonAlterar.setEnabled(!true);
+            }
     }//GEN-LAST:event_jButtonGravarActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
 
         flag=2;
-        //mudar estado dos botoes
-        jButtonGravar.setEnabled(true);
-        jButtonNovo.setEnabled(false);
-        jButtonCancelar.setEnabled(true);
-        jButtonAlterar.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
        
-        //mudar estado dos campos
-        jTextFieldNomeUser.setEnabled(true);
-        jPasswordFieldPass.setEnabled(true);
-        jPasswordFieldConfPass.setEnabled(!true);
+                //mudar estado dos botoes
+                jButtonGravar.setEnabled(true);
+    //          jButtonNovo.setEnabled(false);
+    //          jButtonCancelar.setEnabled(true);
+    //          jButtonAlterar.setEnabled(false);
+                jButtonEliminar.setEnabled(false);
+
+                 //mudar estado dos campos
+                jTextFieldNomeUser.setEnabled(true);
+                jPasswordFieldPass.setEnabled(true);
+                jPasswordFieldConfPass.setEnabled(true);
+                jComboBoxTipoUser.setEnabled(true);
+
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-        
+
         mod.setPesquisa(jTextFieldPesquisa.getText());
         ModeloCriarUser modelo = controlo.pesquisaUser(mod);
+        
         jTextFieldIDuser.setText(String.valueOf(modelo.getIdUser()));
         jTextFieldNomeUser.setText(modelo.getNomeUser());
-      
-        jComboBoxTipoUser.setSelectedItem(modelo.getTipo());
         jPasswordFieldPass.setText(modelo.getPassword());
         jPasswordFieldConfPass.setText(modelo.getPassword());
+        jComboBoxTipoUser.setSelectedItem(modelo.getTipo());
+        
+        //mudar estado dos botoes
+        jButtonCancelar.setEnabled(!true);
+        jButtonEliminar.setEnabled(!true);
+        jButtonAlterar.setEnabled(!true);
+        jButtonNovo.setEnabled(true);
+        
+         preencherTabela("select * from user where username like '%"
+                                    + mod.getPesquisa()+"%'");
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
-    //metodo para criar a tabela
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+        
+        FormPrincipal principal = new FormPrincipal();
+        principal.setVisible(true);
+    }//GEN-LAST:event_jButtonSairActionPerformed
+
+    private void jTableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUserMouseClicked
+      
+        String nomeuser = ""+jTableUser.getValueAt(jTableUser.getSelectedRow(), 1);
+        liga.ligarBD();
+        
+        liga.executaSql("select * from user where username ='"+nomeuser+"'");
+        try {
+          
+            liga.rs.first();
+            jTextFieldIDuser.setText(String.valueOf(liga.rs.getInt("id")));
+            jTextFieldNomeUser.setText(liga.rs.getString("username"));
+            jPasswordFieldPass.setText(liga.rs.getString("password"));
+            jPasswordFieldConfPass.setText(liga.rs.getString("password"));
+            jComboBoxTipoUser.setSelectedItem(liga.rs.getString("tipo"));
+    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "erro ao selecionar os dados" +ex);
+        }
+        liga.desligarBD();
+        
+        //mudar estado dos botoes
+        jButtonAlterar.setEnabled(true);
+        jButtonEliminar.setEnabled(true);
+        jButtonNovo.setEnabled(!true);
+        jButtonCancelar.setEnabled(true);
+        jButtonGravar.setEnabled(false);
+        
+        //bloquear os campos
+        jTextFieldIDuser.setEnabled(false);
+        jTextFieldNomeUser.setEnabled(false);
+        jPasswordFieldPass.setEnabled(false);
+        jPasswordFieldConfPass.setEnabled(false);
+        jComboBoxTipoUser.setEnabled(false);
+    }//GEN-LAST:event_jTableUserMouseClicked
+
+    //metodo para preencher a tabela
     public void preencherTabela(String sql){
   
     ArrayList dados = new ArrayList();
-
     String[] colunas = new String[]{"id","Nome","Tipo","Senha"};
     liga.ligarBD();
     liga.executaSql(sql);
-   // liga.executaSql("select * from divisao inner join dispositivo on"
-                  //  + "divisao.id_dispositivo = dispositivo.id_dispositivo");
-
-  
-                     
+          
    try{
        liga.rs.first();  //vamos buscar o primeiro resultado da pesquisa
        do{                 //enquanto houver dados
  
-              dados.add(new Object[]{ liga.rs.getInt("id"),liga.rs.getString("Nome"), liga.rs.getString("Tipo"),liga.rs.getString("Senha")});     
-        }while (liga.rs.next());    //vai percorrendo as posicoes
+              dados.add(new Object[]{ liga.rs.getInt("id"),liga.rs.getString("username"),
+                            liga.rs.getString("Tipo"),liga.rs.getString("password")});     
+       
+       }while (liga.rs.next());    //vai percorrendo as posicoes
     }catch(SQLException ex){
       JOptionPane.showMessageDialog(null,"procure outra divisao");
     }
@@ -391,14 +428,14 @@ public class FormCriarUser extends javax.swing.JFrame {
    ModeloTabela modTab = new ModeloTabela(dados, colunas);
     
     jTableUser.setModel(modTab);
-    jTableUser.getColumnModel().getColumn(0).setPreferredWidth(127); //nome
+    jTableUser.getColumnModel().getColumn(0).setPreferredWidth(100); //nome
     jTableUser.getColumnModel().getColumn(0).setResizable(false); //nome
-    jTableUser.getColumnModel().getColumn(1).setPreferredWidth(153);
+    jTableUser.getColumnModel().getColumn(1).setPreferredWidth(110);
     jTableUser.getColumnModel().getColumn(1).setResizable(false);
-    jTableUser.getColumnModel().getColumn(2).setPreferredWidth(153);
+    jTableUser.getColumnModel().getColumn(2).setPreferredWidth(110);
     jTableUser.getColumnModel().getColumn(2).setResizable(false);
-    //jTableDivisao.getColumnModel().getColumn(3).setPreferredWidth(80);
-    //jTableDivisao.getColumnModel().getColumn(3).setResizable(false);
+    jTableUser.getColumnModel().getColumn(3).setPreferredWidth(123);
+    jTableUser.getColumnModel().getColumn(3).setResizable(false);
     jTableUser.getTableHeader().setReorderingAllowed(false);
     jTableUser.setAutoResizeMode(jTableUser.AUTO_RESIZE_OFF);
     jTableUser.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//seleciona um dado de cada vez

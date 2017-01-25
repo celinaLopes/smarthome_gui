@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package controlo;
+
+package modelo;
 
 import java.awt.Component;
 
@@ -15,6 +11,7 @@ public class ComboItem {
 
     private Integer id;
     private String name;
+    private String pesquisar;
 
     public ComboItem(Integer value, String label) {
         this.id = value;
@@ -46,5 +43,13 @@ public class ComboItem {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPesquisar() {
+        return pesquisar;
+    }
+
+    public void setPesquisar(String pesquisar) {
+        this.pesquisar = pesquisar;
     }
 }

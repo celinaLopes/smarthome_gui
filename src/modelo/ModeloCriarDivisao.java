@@ -9,7 +9,6 @@ public class ModeloCriarDivisao {
     
      private Integer idDivisao;
      private String nomeDivisao;
-     private String nomeDispositivo;
      private String pesquisar;
 
 
@@ -20,14 +19,6 @@ public class ModeloCriarDivisao {
 
     public void setNomeDivisao(String nomeDivisao) {
         this.nomeDivisao = nomeDivisao;
-    }
-
-    public String getNomeDispositivo() {
-        return nomeDispositivo;
-    }
-
-    public void setNomeDispositivo(String nomeDispositivo) {
-        this.nomeDispositivo = nomeDispositivo;
     }
 
     public String getPesquisar() {
